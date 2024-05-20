@@ -1,4 +1,4 @@
-import * as dns from "dns";
+import dns from "node:dns/promises";
 import SpfParser from "spf-parse";
 import { Record, SpfMechanism, SpfType } from "./Record";
 import ipRegex from 'ip-regex';
@@ -59,27 +59,23 @@ const SpfInspector = (
   const getDnsRecord = (domain: string): Promise<Record[]> => {
     if (isRawIp(domain))
       return Promise.reject(new Error(`Domain ${domain} is a raw ip !`));
-    return new Promise<Record[]>((resolve, reject) => {
-      dns.resolveTxt(domain, (err, entries) => {
-        if (err) return reject(err);
 
-        resolve(
-          entries
-            .reduce((accumulator, currentValue) => [
-              ...accumulator,
-              ...currentValue,
-            ])
-            .filter((record: string): boolean => record.includes("v=spf1")) // * Hide not SPF entries
-            .map(
-              // * Transorm to data record
-              (record: string): Record => ({
-                record,
-                detail: SpfParser(record || ""),
-              })
-            )
-        );
-      });
-    });
+    return dns.resolveTxt(domain)
+      .then((entries: string[][]): Record[] => {
+        return entries
+          .reduce((acc, value) => [
+            ...acc,
+            ...value,
+          ])
+          .filter((record: string): boolean => record.includes('v=spf')) // * Hide not SPF entries
+          .map(
+            // * Transorm to data record
+            (record: string): Record => ({
+              record,
+              detail: SpfParser(record || ""),
+            })
+          )
+      })
   };
 
   const updateState = (record: Record): void => {

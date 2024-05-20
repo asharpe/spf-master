@@ -22,7 +22,7 @@ const plugins = reject(isNilOrEmpty)([
 const commonConfig = {
   input: "src/index.ts",
   plugins,
-  external: ["dns", "spf-parse", "ip-regex", "rambda"],
+  external: ["node:dns/promises", "spf-parse", "ip-regex", "rambda"],
 };
 
 export default [
