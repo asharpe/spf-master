@@ -60,6 +60,7 @@ const SpfInspector = (
     if (isRawIp(domain))
       return Promise.reject(new Error(`Domain ${domain} is a raw ip !`));
     return new Promise<Record[]>((resolve, reject) => {
+      status.lookups += 1;
       dns.resolveTxt(domain, (err, entries) => {
         if (err) return reject(err);
 
@@ -186,6 +187,7 @@ const SpfInspector = (
         );
         return Promise.resolve({
           records: records || [],
+          lookups: status.lookups,
           found: {
             ips: helperRemoveEmpty(status.ips),
             includes: helperRemoveEmpty(status.includes),
@@ -193,7 +195,6 @@ const SpfInspector = (
           },
           isMatch: status.match,
           reason: "",
-          lookups: status.lookups,
         });
       })
       .catch((err) => {
