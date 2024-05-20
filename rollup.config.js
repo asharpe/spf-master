@@ -29,7 +29,7 @@ export default [
     output: {
       dir: "./dist",
       entryFileNames: "index.js",
-      format: "cjs",
+      format: "esm",
     },
   },
 
