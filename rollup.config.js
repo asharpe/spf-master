@@ -29,7 +29,7 @@ export default [
     output: {
       dir: "./dist",
       entryFileNames: "index.js",
-      format: "esm",
+      format: "cjs",
     },
   },
 
@@ -37,6 +37,6 @@ export default [
   {
     ...commonConfig,
 
-    output: { file: "dist/es/index.js", format: "es" },
+    output: { file: "dist/es/index.js", format: "esm" },
   },
 ];
