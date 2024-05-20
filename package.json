@@ -1,5 +1,5 @@
 {
-  "name": "spf-master",
+  "name": "@andrewsharpe/spf-master",
   "version": "2.1.4",
   "description": "Basic tool for inspecting SPF record",
   "type": "module",
@@ -11,7 +11,7 @@
   "main": "dist/index.js",
   "repository": {
     "type": "git",
-    "url": "https://github.com/MajorTom327/spf-master.git"
+    "url": "git+https://github.com/asharpe/spf-master.git"
   },
   "keywords": [
     "spf",
@@ -33,6 +33,7 @@
     "ip-regex": "^5.0.0",
     "rambda": "^9.0.1",
     "rollup": "^4.9.6",
+    "rollup-plugin-peer-deps-external": "^2.2.4",
     "spf-parse": "^1.0.4",
     "ts-node": "^10.9.1",
     "ts-node-dev": "^2.0.0",
