@@ -1,12 +1,13 @@
 {
-  "name": "spf-master",
-  "version": "2.1.4",
-  "description": "Basic tool for inspecting SPF record",
+  "name": "@andrewsharpe/spf-master",
+  "version": "2.1.6",
+  "description": "Basic tool for inspecting SPF record (fork of spf-master)",
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "rollup -c rollup.config.js",
-    "dev": "rollup -c -w"
+    "dev": "rollup -c -w",
+	 "prepare": "npm run build"
   },
   "main": "dist/index.js",
   "repository": {
