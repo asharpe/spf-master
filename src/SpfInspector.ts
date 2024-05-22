@@ -89,7 +89,7 @@ const SpfInspector = (
 
     // * Update ips
     mechanisms
-      .filter(or(propEq("type", SpfType.ip4), propEq("type", SpfType.ip6)))
+      .filter(or(propEq(SpfType.ip4, "type"), propEq(SpfType.ip6, "type")))
       .map(prop("value"))
       .forEach((ip) => {
         if (contains(ip, status.ips)) return;
@@ -99,7 +99,7 @@ const SpfInspector = (
 
     // * Update includes
     mechanisms
-      .filter(propEq("type", SpfType.include))
+      .filter(propEq(SpfType.include, "type"))
       .map(prop("value"))
       .forEach((include) => {
         status.lookups += 1;
@@ -110,7 +110,7 @@ const SpfInspector = (
 
     // * Update domain
     mechanisms
-      .filter(propEq("type", SpfType.a))
+      .filter(propEq(SpfType.a, "type"))
       .map(prop("value"))
       .forEach((domain) => {
         status.lookups += 1;
@@ -139,7 +139,7 @@ const SpfInspector = (
       [],
       ["detail", "mechanisms"],
       record
-    ).filter(propEq("type", SpfType.include));
+    ).filter(propEq(SpfType.include, "type"));
 
     // * We are a the lowest level
     if (length(includes) === 0) return Promise.resolve(record);
