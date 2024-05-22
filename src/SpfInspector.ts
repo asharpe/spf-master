@@ -119,13 +119,22 @@ const SpfInspector = (
         status.domains.push(domain);
       });
 
+    // * Update mx
+    mechanisms
+      .filter(propEq(SpfType.mx, "type"))
+      .forEach((d) => {
+        status.lookups += 1;
+        // TODO if we want to do proper validation, we need to do the MX lookup
+        // and add to the IPs
+      });
+
     // * Check if it's a full match
-    status.match =
+    status.match ||=
       [
         equals(status.includes, propOr([], "includes", search)),
         equals(status.ips, propOr([], "ips", search)),
         equals(status.domains, propOr([], "domains", search)),
-      ].every(equals(true)) || status.match;
+      ].every(equals(true));
   };
 
   const getIncludes = async (record: Record, depth: number) => {
