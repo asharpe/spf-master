@@ -1,6 +1,6 @@
 {
   "name": "@andrewsharpe/spf-master",
-  "version": "2.1.6",
+  "version": "2.1.8",
   "description": "Basic tool for inspecting SPF record (fork of spf-master)",
   "type": "module",
   "scripts": {
