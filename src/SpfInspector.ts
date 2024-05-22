@@ -27,6 +27,14 @@ const contains = curry((item: string, list: string[]) => list.includes(item))
 
 // const R = require('rambda');
 
+class SpfError extends Error {
+	constructor(message, props) {
+		super(message);
+		Object.assign(this, props);
+	}
+}
+
+
 type Search = {
   ips: string[];
   includes: string[];
@@ -182,8 +190,15 @@ const SpfInspector = (
       })
     )
       .then((records: Record[]) => {
-        // * Here we got the finals records.
-        // * Format the report
+        // let's signal an error if we found nothing, similar to dns or http 404
+        if (records.length === 0) {
+          return Promise.reject(new SpfError(`querySpf ENODATA ${domain}`, {
+            // errno: , // ? dunno where these are specified :(
+            code: 'ENODATA',
+            syscall: 'querySpf',
+            domain: domain,
+          }));
+        }
 
         const helperRemoveEmpty = compose(
           reject(either(isNil, isEmpty)),
@@ -200,7 +215,7 @@ const SpfInspector = (
           lookups: status.lookups,
           reason: "",
         });
-      })
+      });
   });
 };
 
