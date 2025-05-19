@@ -54,6 +54,7 @@ const SpfInspector = (
     domains: [],
     match: false,
     lookups: 0,
+    errors: [],
   };
 
   const getDnsRecord = (domain: string): Promise<Record[]> => {
@@ -61,7 +62,10 @@ const SpfInspector = (
       return Promise.reject(new Error(`Domain ${domain} is a raw ip !`));
     return new Promise<Record[]>((resolve, reject) => {
       dns.resolveTxt(domain, (err, entries) => {
-        if (err) return reject(err);
+        if (err) {
+          status.errors.push(err);
+          return resolve([]);
+        }
 
         resolve(
           entries
